@@ -1,4 +1,7 @@
+#include "hzpch.h"
 #include "Application.h"
+#include "Hazel/Event/ApplicationEvent.h"
+#include "Hazel/Log.h"
 
 namespace Hazel {
 
@@ -12,6 +15,9 @@ namespace Hazel {
 	}
 	void Application::run()
 	{
+		WindowResizedEvent we(1200, 700);
+		HZ_TRACE(we.ToString());
+
 		while (true);
 	}
 }
