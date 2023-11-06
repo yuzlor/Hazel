@@ -7,7 +7,7 @@ namespace Hazel {
 
 	Application::Application()
 	{
-
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 	Application::~Application()
 	{
@@ -15,9 +15,12 @@ namespace Hazel {
 	}
 	void Application::run()
 	{
-		WindowResizedEvent we(1200, 700);
-		HZ_TRACE(we.ToString());
+		/*WindowResizedEvent we(1200, 700);
+		HZ_TRACE(we.ToString());*/
 
-		while (true);
+		while (m_Running)
+		{
+			m_Window->OnUpdate();
+		}
 	}
 }

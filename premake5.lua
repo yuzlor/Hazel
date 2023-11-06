@@ -8,39 +8,53 @@ workspace "Hazel"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+--使用submodule的premake5.lua文件
+include "Hazel/vendor/GLFW"
+
 project "Hazel"
      location "Hazel"
      kind "SharedLib"
      language "C++"
+     --staticruntime "off"
+     cppdialect "C++17"
 
      targetdir ("bin/" .. outputdir .. "/%{prj.name}")
      objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+     
 
      pchheader "hzpch.h"
      pchsource "%{prj.name}/src/hzpch.cpp"
 
+     defines
+	{
+	    "_CRT_SECURE_NO_WARNINGS", "HZ_BUILD_DLL"
+	}
+
      files 
      { 
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp" 
+        "%{prj.name}/src/**.cpp",
+        --"%{prj.name}/vendor/**.hpp"
      }
 
      includedirs
      {
           "%{prj.name}/vendor/spdlog/include",
           "%{prj.name}/src",
-		  "%{prj.name}/src/Hazel"
+		  "%{prj.name}/src/Hazel",
+          "%{prj.name}/vendor/GLFW/include"
      }
+
+     links {"GLFW", "opengl32.lib"}
    
      filter "system:windows"
-          cppdialect "C++17"
           staticruntime "On"
           systemversion "latest"
           
           defines
           {
                "HZ_PLATFORM_WINDOWS",
-               "HZ_BUILD_DLL"
+               "GLFW_INCLUDE_NONE"
           }
 
           postbuildcommands
@@ -50,7 +64,10 @@ project "Hazel"
 
      filter "configurations:Debug"
           defines "HZ_DEBUG"
+          buildoptions {"/MDd"} -- 添加buildoptions
           symbols "On"
+		  runtime "Debug" -- 运行时链接的dll是debug类型的
+
 
      filter "configurations:Release"
           defines "HZ_RELEASE"

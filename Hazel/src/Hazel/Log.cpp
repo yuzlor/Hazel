@@ -4,8 +4,8 @@
 
 namespace Hazel {
 
-	std::shared_ptr<spdlog::logger> Log::m_CoreLogger;
-	std::shared_ptr<spdlog::logger> Log::m_ClientLogger;
+	std::shared_ptr<spdlog::logger> Log::m_CoreLogger = nullptr;
+	std::shared_ptr<spdlog::logger> Log::m_ClientLogger = nullptr;
 
 	void Log::Init()
 	{
