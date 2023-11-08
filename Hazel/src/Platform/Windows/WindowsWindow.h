@@ -10,14 +10,14 @@ namespace Hazel {
 	public:
 		WindowsWindow(const WindowProps& props);
 		~WindowsWindow() override;
-		int GetWindowWidth() const  override { return m_Data.width; }
-		int GetWindowHeight() const override { return m_Data.height; }
+		int const GetWindowWidth() const override { return m_Data.width; }
+		int const GetWindowHeight() const override { return m_Data.height; }
 		bool IsVSync() const override { return m_Data.isVSync; }
 		void SetVSync(bool enabled) override;
 		void OnUpdate() override;
 		void OnResized(unsigned int width, unsigned int height) override;
-		//void* GetNaiveWindow() override;
-		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.eventCallback = callback; };
+		//void* GetNaiveWindow() const override;
+		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.eventCallback = callback; }
 
 	private:
 		virtual void Shutdown();
@@ -34,6 +34,7 @@ namespace Hazel {
 			bool isVSync;
 			EventCallbackFn eventCallback;
 		};
+
 		WindowData m_Data;
 	};
 

@@ -20,7 +20,7 @@ namespace Hazel
 	protected:
 	};
 
-	class HAZEL_API  WindowResizedEvent :public Event
+	class HAZEL_API WindowResizedEvent :public Event
 	{
 	public:
 		WindowResizedEvent(int height, int width) :m_Height(height), m_Width(width) {}

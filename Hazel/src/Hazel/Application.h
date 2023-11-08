@@ -10,7 +10,9 @@ namespace Hazel
 	public:
 		Application();
 		virtual ~Application();
-		void run();
+		void Run();
+
+		void OnEvent(Event& event);
 
 	private:
 		std::unique_ptr<Window> m_Window;
