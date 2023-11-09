@@ -38,8 +38,8 @@ namespace Hazel {
 
 	class HAZEL_API Event
 	{
-		//friend EventDistpatcher;
 	public:
+		friend class EventDistpatcher;
 		virtual const char* GetName() const = 0;
 		virtual const EventType GetEventType() const = 0;
 		virtual int GetCategoryFlag() const = 0;
@@ -64,7 +64,7 @@ namespace Hazel {
 		template<typename T>
 		bool Dispatch(Evenfn<T> func) 
 		{
-			if (m_Event.GetEventType == T::GetStaticType) 
+			if (m_Event.GetEventType() == T::GetStaticType()) 
 			{
 				m_Event.m_Handled = func(*(T*)&m_Event);
 			}

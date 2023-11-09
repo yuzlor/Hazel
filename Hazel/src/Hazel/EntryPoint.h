@@ -11,7 +11,7 @@ int main(int* argc, char** argv)
 	int a = 1;
 	HZ_INFO("Hello! var={0}", a);
 	auto app = Hazel::creatApplication();
-	app->run();
+	app->Run();
 	delete app;
 }
 

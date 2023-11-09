@@ -1,7 +1,7 @@
 #include "hzpch.h"
 
-#include "Hazel/Event/Event.h"
-#include "Hazel/Core.h"
+#include "Event/Event.h"
+#include "Core.h"
 
 namespace Hazel {
 
@@ -13,7 +13,8 @@ namespace Hazel {
 		unsigned int m_height;
 
 		WindowProps(const std::string& title = "Hazel Engine", unsigned int width = 1280, unsigned int height = 720)
-			:m_title(title), m_width(width), m_height(height) {
+			:m_title(title), m_width(width), m_height(height) 
+		{
 
 		}
 

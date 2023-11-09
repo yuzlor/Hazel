@@ -1,11 +1,11 @@
 #include "hzpch.h"
+#include "WindowsWindow.h"
 
 #include "Hazel/Event/ApplicationEvent.h"
 #include "Hazel/Event/KeyEvent.h"
 #include "Hazel/Event/MouseEvent.h"
 
-#include "Hazel.h"
-#include "WindowsWindow.h"
+
 
 namespace Hazel 
 {
@@ -154,7 +154,7 @@ namespace Hazel
 
 	void WindowsWindow::OnResized(unsigned int width, unsigned int height)
 	{
-		return;
+		//glViewport(0, 0, width, height);
 	}
 
 	/*void* WindowsWindow::GetNaiveWindow()

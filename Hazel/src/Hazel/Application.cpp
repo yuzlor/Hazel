@@ -1,7 +1,8 @@
 #include "hzpch.h"
 #include "Application.h"
 #include "Hazel/Event/ApplicationEvent.h"
-#include "Hazel/Log.h"
+#include "Hazel/Event/Event.h"
+//#include "Hazel.h"
 
 namespace Hazel {
 
@@ -20,7 +21,13 @@ namespace Hazel {
 
 	void Application::OnEvent(Event& event)
 	{
-		HZ_CORE_INFO("{0}", event);
+		//HZ_CORE_INFO("{0}", event);
+		EventDistpatcher dispatcher(event);
+		dispatcher.Dispatch<WindowCloseEvent>(
+			std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+		dispatcher.Dispatch<WindowResizedEvent>(
+			std::bind(&Application::OnWindowResized, this, std::placeholders::_1));
+		HZ_CORE_INFO("{0}", event.ToString());
 	}
 
 	void Application::Run()
@@ -32,5 +39,17 @@ namespace Hazel {
 		{
 			m_Window->OnUpdate();
 		}
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		m_Running = false;
+		return true;
+	}
+
+	bool Application::OnWindowResized(WindowResizedEvent& e)
+	{
+		m_Window->OnResized(e.GetWindowWidth(), e.GetWindowHeight());
+		return true;
 	}
 }
