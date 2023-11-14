@@ -23,7 +23,7 @@ namespace Hazel {
 	class HAZEL_API Window
 	{
 	public:
-		using EventCallbackFn = std::function<void(Event&)>;//error: callback undeclared identifier
+		using EventCallbackFn = std::function<void(Event&)>;
 		virtual ~Window() {};
 		virtual int const GetWindowWidth() const = 0;
 		virtual int const GetWindowHeight() const = 0;

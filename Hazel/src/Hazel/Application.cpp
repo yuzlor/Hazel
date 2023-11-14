@@ -8,8 +8,12 @@ namespace Hazel {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+	Hazel::Application* Hazel::Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
+		HAZEL_ASSERT(!s_Instance, "Already Exists an application instance");
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}
@@ -19,15 +23,29 @@ namespace Hazel {
 
 	}
 
+	void Application::PushLayer(std::shared_ptr<Layer>  layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	std::shared_ptr<Hazel::Layer> Application::PopLayer()
+	{
+		return m_LayerStack.PopLayer();
+	}
+
 	void Application::OnEvent(Event& event)
 	{
 		//HZ_CORE_INFO("{0}", event);
 		EventDistpatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(
 			std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
-		dispatcher.Dispatch<WindowResizedEvent>(
-			std::bind(&Application::OnWindowResized, this, std::placeholders::_1));
+		/*dispatcher.Dispatch<WindowResizedEvent>(
+			std::bind(&Application::OnWindowResized, this, std::placeholders::_1));*/
 		HZ_CORE_INFO("{0}", event.ToString());
+
+		for (auto layer : m_LayerStack) {
+			layer->OnEvent(event);
+		}
 	}
 
 	void Application::Run()
@@ -37,6 +55,9 @@ namespace Hazel {
 
 		while (m_Running)
 		{
+			for (auto layer : m_LayerStack) {
+				layer->OnUpdate();
+			}
 			m_Window->OnUpdate();
 		}
 	}
@@ -47,9 +68,9 @@ namespace Hazel {
 		return true;
 	}
 
-	bool Application::OnWindowResized(WindowResizedEvent& e)
+	/*bool Application::OnWindowResized(WindowResizedEvent& e)
 	{
 		m_Window->OnResized(e.GetWindowWidth(), e.GetWindowHeight());
 		return true;
-	}
+	}*/
 }
